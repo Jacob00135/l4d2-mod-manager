@@ -1,0 +1,14 @@
+#main h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: #b0b0b0;
+    text-align: center;
+    font-weight: 400;
+}
+
+#main .sub-title {
+    margin: 0;
+    color: #9fb08b;
+    font-weight: 400;
+    text-align: center;
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{% block title %}{% endblock title %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mod_manager/css/global.css' %}">
+
+    {% block style %}{% endblock style %}
+</head>
+<body>
+
+    <div id="top_nav">
+        <div class="nav-main">
+            <div class="left-group">
+                <a href="{% url 'mod_manager:index' %}" class="button mod-list">
+                    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 3l8 4.5v9L12 21l-8-4.5v-9zm0 9l8-4.5M12 12v9m0-9L4 7.5m12-2.25l-8 4.5"/></svg>
+                    <div class="text">MOD列表</div>
+                </a>
+                <a href="{% url 'mod_manager:index' %}" class="button add-mod">
+                    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14"/></svg>
+                    <div class="text">添加MOD</div>
+                </a>
+            </div>
+            <div class="right-group">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'mod_manager:logout' %}" class="button logout">
+                    <svg viewBox="0 0 24 24"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-2"/><path d="M9 12h12l-3-3m0 6l3-3"/></g></svg>
+                    <div class="text">登出</div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="main">
+        {% block content %}{% endblock content %}
+    </div>
+
+    {% block javascript %}{% endblock javascript %}
+</body>
+</html>

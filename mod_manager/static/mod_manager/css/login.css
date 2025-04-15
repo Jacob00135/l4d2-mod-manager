@@ -1,0 +1,73 @@
+#main .login-box {
+    position: fixed;
+    width: 500px;
+    height: 360px;
+    top: 50%;
+    left: 50%;
+    margin-top: -180px;
+    margin-left: -250px;
+    box-shadow: 0 0 30px 1px #25344a;
+}
+
+#main .login-box h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: #b0b0b0;
+    text-align: center;
+    font-weight: 400;
+}
+
+#main .login-box #login_form {
+    box-sizing: border-box;
+    padding: 0 40px 40px;
+}
+
+#main .login-box #login_form input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    border-width: 0;
+    font-size: 18px;
+    color: #b0b0b0;
+    outline: none;
+}
+
+#main .login-box #login_form #username {
+    padding: 0 20px;
+    border: 1px solid #122133;
+    background-color: #122133;
+    transition: border-color .2s;
+}
+
+#main .login-box #login_form #password {
+    margin-top: 35px;
+    padding: 0 20px;
+    border: 1px solid #122133;
+    background-color: #122133;
+    transition: border-color .2s;
+}
+
+#main .login-box #login_form #username:focus,
+#main .login-box #login_form #password:focus {
+    border-color: #5095be;
+}
+
+#main .login-box #login_form #submit_button {
+    margin-top: 35px;
+    background-color: #477497;
+    color: #a7d5f0;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main .login-box #login_form #submit_button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main .login-box #login_form #username::placeholder,
+#main .login-box #login_form #password::placeholder {
+    color: #636361;
+}

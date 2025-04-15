@@ -1,0 +1,7 @@
+.idea
+**/__pycache__
+venv
+connect_db.sh
+db.sqlite3
+start.sh
+mod_manager/static/mod_manager/images/mod_images/*

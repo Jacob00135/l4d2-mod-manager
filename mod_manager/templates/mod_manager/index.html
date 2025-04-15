@@ -1,0 +1,13 @@
+{% extends "mod_manager/base.html" %}
+{% load static %}
+
+{% block title %}MOD列表{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'mod_manager/css/index.css' %}">
+{% endblock style %}
+
+{% block content %}
+<h1>MOD列表</h1>
+<h5 class="sub-title">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</h5>
+{% endblock content %}
