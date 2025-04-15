@@ -9,6 +9,49 @@
 
 {% block content %}
 <h1>MOD列表</h1>
-<h5 class="sub-title">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</h5>
-<h5 class="sub-title">磁盘使用情况：{{ disk_info.used }} / {{ disk_info.total }} ({{ disk_info.percent }})</h5>
+<p class="server-info sort-info">MOD排序方式：地图排在其他MOD前面，按文件大小从大到小排序</p>
+<p class="server-info addons-path">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</p>
+<p class="server-info disk-info">磁盘使用情况：{{ disk_info.used }} / {{ disk_info.total }} ({{ disk_info.percent }})</p>
+
+<ul id="mod_list">
+    {% for mod_info in all_mod_info %}
+    <li class="mod-info {% if mod_info.type == 'map' %}right-exist{% endif %}">
+        <div class="left">
+            {% if mod_info.cover == '' %}
+            <svg viewBox="0 0 16 16"><g><path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006l4.304 1.769A2.2 2.2 0 0 1 5.62 8.88l1.96-2.844l-.001-.04a3.046 3.046 0 0 1 3.042-3.043a3.046 3.046 0 0 1 3.042 3.043a3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11a2.22 2.22 0 0 1-1.312-1.568L.33 10.333Z"/><path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165a1.7 1.7 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029a2.03 2.03 0 0 0 2.027-2.029a2.03 2.03 0 0 0-2.027-2.027a2.03 2.03 0 0 0-2.027 2.027m2.03-1.527a1.524 1.524 0 1 1-.002 3.048a1.524 1.524 0 0 1 .002-3.048"/></g></svg>
+            {% else %}
+            <img src="data:image/jpeg;base64,{{ mod_info.cover }}" />
+            {% endif %}
+        </div>
+        <div class="middle">
+            <div class="mod-name">{{ mod_info.name }}</div>
+            <div class="mod-scription">{{ mod_info.scription }}</div>
+            <div class="mod-filename">文件名：{{ mod_info.filename }} ({{ mod_info.file_size }})</div>
+        </div>
+
+        {% if mod_info.type == 'map' %}
+        <div class="right">
+            <div class="coop-code-title">建图代码</div>
+            <ul class="coop-code-list">
+                {% for coop_info in mod_info.coop_info %}
+                <li class="coop-code">{{ forloop.counter }}. {{ coop_info.chapter_code }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form class="delete-mod-form" action="{% url 'mod_manager:delete_mod' %}" method="post">
+            {% csrf_token %}
+            <input type="text" class="hidden" name="filename" value="{{ mod_info.filename }}" />
+            <button type="submit" class="submit-btn">
+                <svg viewBox="0 0 24 24"><path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4zm2 2h6V4H9zM6.074 8l.857 12H17.07l.857-12zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1m4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1"/></svg>
+            </button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'mod_manager/js/index.js' %}"></script>
+{% endblock javascript %}

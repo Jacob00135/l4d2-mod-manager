@@ -1,3 +1,11 @@
+.hidden {
+    display: none;
+}
+
+#main {
+    padding-bottom: 80px;
+}
+
 #main h1 {
     margin: 0;
     padding: 20px 0;
@@ -6,10 +14,162 @@
     font-weight: 400;
 }
 
-#main .sub-title {
+#main .server-info {
     margin: 0;
     padding: 4px 0;
     color: #9fb08b;
-    font-weight: 400;
     text-align: center;
+    font-size: 17px;
+}
+
+#main .server-info.sort-info {
+    color: #a7d5f0;
+}
+
+#main #mod_list {
+    margin: 80px 0 0;
+    padding: 0;
+}
+
+#main #mod_list > .mod-info {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    height: 158px;
+    padding: 4px 24px 4px 170px;
+    box-shadow: 0 0 10px 1px rgba(15, 38, 70, 0.8);
+    background-image: linear-gradient(to right bottom, #2b3748, #202f42);
+    list-style: none;
+}
+
+#main #mod_list > .mod-info.right-exist {
+    padding-right: 170px;
+}
+
+#main #mod_list > .mod-info:nth-child(n + 2) {
+    margin-top: 20px;
+}
+
+#main #mod_list > .mod-info .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 150px;
+    height: 150px;
+    background-color: #000000;
+}
+
+#main #mod_list > .mod-info .left svg {
+    align-self: center;
+    width: 80%;
+    fill: #475569;
+}
+
+#main #mod_list > .mod-info .left img {
+    display: block;
+    align-self: center;
+    width: 100%;
+}
+
+#main #mod_list > .mod-info .middle {
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+    padding-top: 38px;
+    padding-bottom: 32px;
+}
+
+#main #mod_list > .mod-info .middle .mod-name {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 100%;
+    height: 30px;
+    color: #c8c8c8;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+#main #mod_list > .mod-info .middle .mod-scription {
+    box-sizing: border-box;
+    overflow: auto;
+    height: 100%;
+    padding-top: 8px;
+    color: #8e8e8e;
+    font-size: 16px;
+}
+
+#main #mod_list > .mod-info .middle .mod-filename {
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+    width: 100%;
+    height: 24px;
+    color: #9fb08b;
+    font-size: 16px;
+    line-height: 24px;
+    font-style: italic;
+}
+
+#main #mod_list > .mod-info .right {
+    box-sizing: border-box;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 150px;
+    height: 150px;
+    padding: 32px 0 8px;
+}
+
+#main #mod_list > .mod-info .right .coop-code-title {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 24px;
+    color: #a7d5f0;
+    font-size: 16px;
+    text-align: center;
+    line-height: 24px;
+}
+
+#main #mod_list > .mod-info .right .coop-code-list {
+    overflow: auto;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#main #mod_list > .mod-info .right .coop-code-list > .coop-code {
+    color: #c8c8c8;
+    font-size: 14px;
+    list-style: none;
+}
+
+#main #mod_list > .mod-info .delete-mod-form {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+}
+
+#main #mod_list > .mod-info .delete-mod-form .submit-btn {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-width: 0;
+    background-color: #772a2a;
+    cursor: pointer;
+}
+
+#main #mod_list > .mod-info .delete-mod-form .submit-btn svg {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    fill: #99aac1;
 }

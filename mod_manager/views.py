@@ -1,11 +1,11 @@
 import os
 from functools import wraps
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.urls import reverse
 from django.conf import settings
-from .utils import parse_vpk, get_disk_info
+from .utils import get_all_mod_info, get_disk_info, check_filename_legality
 
 # Create your views here.
 
@@ -45,25 +45,35 @@ def login(request):
 
 @login_required
 def logout(request):
+    if request.method == 'GET':
+        return HttpResponseRedirect(reverse('mod_manager:index'))
+
     django_logout(request)
     return HttpResponseRedirect(reverse('mod_manager:login'))
 
 
 @login_required
 def index(request):
-    mod_info = []
-    for fn in os.listdir(settings.L4D2_MOD_ADDONS_PATH):
-        if fn.rsplit('.', 1).pop() != 'vpk':
-            continue
-        vpk_info = parse_vpk(os.path.join(settings.L4D2_MOD_ADDONS_PATH, fn))
-        item = {'filename': fn}
-        item.update(vpk_info)
-        mod_info.append(item)
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('mod_manager:index'))
 
     context = {
         'L4D2_MOD_ADDONS_PATH': settings.L4D2_MOD_ADDONS_PATH,
         'disk_info': get_disk_info(settings.L4D2_MOD_ADDONS_PATH),
-        'mod_info': mod_info
+        'all_mod_info': get_all_mod_info(settings.L4D2_MOD_ADDONS_PATH, sort=True)
     }
 
     return render(request, 'mod_manager/index.html', context)
+
+
+def delete_mod(request):
+    filename = request.POST.get('filename', '')
+    mod_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, filename)
+
+    if request.method == 'POST' and check_filename_legality(filename) and os.path.exists(mod_path):
+        try:
+            os.remove(mod_path)
+        except Exception as e:
+            print(e)
+
+    return HttpResponseRedirect(reverse('mod_manager:index'))
