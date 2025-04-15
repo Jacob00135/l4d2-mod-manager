@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.urls import reverse
 from django.conf import settings
-from .utils import parse_vpk
+from .utils import parse_vpk, get_disk_info
 
 # Create your views here.
 
@@ -53,11 +53,17 @@ def logout(request):
 def index(request):
     mod_info = []
     for fn in os.listdir(settings.L4D2_MOD_ADDONS_PATH):
+        if fn.rsplit('.', 1).pop() != 'vpk':
+            continue
         vpk_info = parse_vpk(os.path.join(settings.L4D2_MOD_ADDONS_PATH, fn))
         item = {'filename': fn}
         item.update(vpk_info)
-        mode_info.append(item)
-    return render(request, 'mod_manager/index.html', {
+        mod_info.append(item)
+
+    context = {
         'L4D2_MOD_ADDONS_PATH': settings.L4D2_MOD_ADDONS_PATH,
+        'disk_info': get_disk_info(settings.L4D2_MOD_ADDONS_PATH),
         'mod_info': mod_info
-    })
+    }
+
+    return render(request, 'mod_manager/index.html', context)

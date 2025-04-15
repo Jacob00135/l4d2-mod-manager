@@ -1,7 +1,28 @@
 import os
 import json
 import vpk
+import psutil
 from base64 import b64encode
+
+
+def format_disk_unit(num):
+    unit_list = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB']
+    i = 0
+    while num >= 1024:
+        num = num / 1024
+        i = i + 1
+
+    return '{:.2f} {}'.format(num, unit_list[i])
+
+
+def get_disk_info(path):
+    disk_info = psutil.disk_usage(path)
+
+    return {
+        'used': format_disk_unit(disk_info.used),
+        'total': format_disk_unit(disk_info.total),
+        'percent': '{:.2%}'.format(disk_info.used / disk_info.total)
+    }
 
 
 def get_value_from_vpk_txt_row(row):
@@ -70,3 +91,7 @@ def parse_vpk(vpk_path):
                 vpk_info['name'] = extract_addontitle(vpk_obj[path].read().decode())
 
     return vpk_info
+
+
+if __name__ == '__main__':
+    print(get_disk_info('/home/xjy/.local/share/Steam/steamapps/common/Left 4 Dead 2/left4dead2/addons'))

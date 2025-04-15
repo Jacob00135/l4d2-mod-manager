@@ -10,4 +10,5 @@
 {% block content %}
 <h1>MOD列表</h1>
 <h5 class="sub-title">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</h5>
+<h5 class="sub-title">磁盘使用情况：{{ disk_info.used }} / {{ disk_info.total }} ({{ disk_info.percent }})</h5>
 {% endblock content %}
