@@ -79,7 +79,7 @@
     box-sizing: border-box;
     height: 100%;
     padding-top: 38px;
-    padding-bottom: 32px;
+    padding-bottom: 42px;
 }
 
 #main #mod_list > .mod-info .middle .mod-name {
@@ -102,15 +102,26 @@
     font-size: 16px;
 }
 
-#main #mod_list > .mod-info .middle .mod-filename {
+#main #mod_list > .mod-info .middle .bottom {
     position: absolute;
     left: 0;
-    bottom: 8px;
+    bottom: 0;
     width: 100%;
+}
+
+#main #mod_list > .mod-info .middle .bottom .mod-filename {
     height: 24px;
     color: #9fb08b;
     font-size: 16px;
     line-height: 24px;
+    font-style: italic;
+}
+
+#main #mod_list > .mod-info .middle .bottom .mod-sha256 {
+    height: 18px;
+    color: #9fb08b;
+    font-size: 12px;
+    line-height: 18px;
     font-style: italic;
 }
 

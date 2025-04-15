@@ -79,8 +79,12 @@ body {
     stroke: #a7d5f0;
 }
 
-#top_nav .nav-main .button.add-mod svg {
+#top_nav .nav-main .button.subscribe-mod svg {
     stroke: #a7d5f0;
+}
+
+#top_nav .nav-main .button.upload-mod svg {
+    fill: #a7d5f0;
 }
 
 #top_nav .nav-main .button.logout svg {

@@ -1,0 +1,37 @@
+{% extends "mod_manager/base.html" %}
+{% load static %}
+
+{% block title %}订阅MOD{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'mod_manager/css/subscribe-mod.css' %}">
+{% endblock style %}
+
+{% block content %}
+<h1>订阅MOD</h1>
+
+<form id="subscribe_form" action="{% url 'mod_manager:subscribe_mod' %}" method="post">
+    {% csrf_token %}
+    <input type="text" id="subscribe_url" name="subscribe_url" placeholder="MOD的Steam创意工坊页面链接" autocomplete="off" required />
+    <input type="submit" class="submit-button" value="订阅" />
+</form>
+
+<div id="subscribe_live">
+    <h2 class="live-title">订阅日志</h2>
+
+    <div class="progress-box">
+        <div class="progress-bar">
+            <div class="progress"></div>
+            <div class="text">0%</div>
+        </div>
+    </div>
+
+    <div class="log-panel-box">
+        <div class="log-panel"></div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'mod_manager/js/subscribe-mod.js' %}"></script>
+{% endblock javascript %}
