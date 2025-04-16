@@ -6,6 +6,14 @@
     font-weight: 400;
 }
 
+#main .hint-info {
+    margin: 0;
+    padding: 4px 0;
+    color: #9fb08b;
+    text-align: center;
+    font-size: 17px;
+}
+
 #main #subscribe_form {
     box-sizing: border-box;
     position: relative;
@@ -26,6 +34,10 @@
     color: #b0b0b0;
     outline: none;
     transition: border-color .2s;
+}
+
+#main #subscribe_form #subscribe_url.disabled {
+    cursor: not-allowed;
 }
 
 #main #subscribe_form #subscribe_url:focus {
@@ -53,7 +65,11 @@
     transition: background-color .2s;
 }
 
-#main #subscribe_form .submit-button:hover {
+#main #subscribe_form .submit-button.disabled {
+    cursor: not-allowed;
+}
+
+#main #subscribe_form .submit-button:hover:not(.disabled) {
     background-color: #5095be;
     color: #f7f7f7;
 }
@@ -87,6 +103,7 @@
     height: 100%;
     border-radius: 6px;
     background-color: #477497;
+    transition: width .5s;
 }
 
 #main #subscribe_live .progress-box .progress-bar .text {
@@ -115,4 +132,5 @@
     overflow: auto;
     height: 100%;
     color: #9b9b9b;
+    font-size: 14px;
 }

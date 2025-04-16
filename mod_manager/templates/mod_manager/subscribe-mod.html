@@ -9,8 +9,10 @@
 
 {% block content %}
 <h1>订阅MOD</h1>
+<p class="hint-info">订阅后请不要刷新页面，防止订阅进度丢失</p>
 
-<form id="subscribe_form" action="{% url 'mod_manager:subscribe_mod' %}" method="post">
+<form id="subscribe_form" action="{% url 'mod_manager:subscribe_mod' %}" method="post"
+      data-log-url="{% url 'mod_manager:get_subscribe_progress' %}">
     {% csrf_token %}
     <input type="text" id="subscribe_url" name="subscribe_url" placeholder="MOD的Steam创意工坊页面链接" autocomplete="off" required />
     <input type="submit" class="submit-button" value="订阅" />

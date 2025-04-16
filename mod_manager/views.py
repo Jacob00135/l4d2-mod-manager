@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.urls import reverse
 from django.conf import settings
+from .models import SubscribeTask
 from .utils import get_all_mod_info, get_disk_info, check_filename_legality, SubscribeMod
 
 # Create your views here.
@@ -53,9 +54,6 @@ def logout(request):
 
 @login_required
 def index(request):
-    if request.method != 'GET':
-        return HttpResponseRedirect(reverse('mod_manager:index'))
-
     context = {
         'L4D2_MOD_ADDONS_PATH': settings.L4D2_MOD_ADDONS_PATH,
         'disk_info': get_disk_info(settings.L4D2_MOD_ADDONS_PATH),
@@ -81,7 +79,39 @@ def delete_mod(request):
 
 @login_required
 def subscribe_mod(request):
-    return render(request, 'mod_manager/subscribe-mod.html')
+    if request.method != 'POST':
+        return render(request, 'mod_manager/subscribe-mod.html')
+
+    subscribe_url = request.POST.get('subscribe_url', '')
+    smobj = SubscribeMod(subscribe_url, settings.L4D2_MOD_ADDONS_PATH)
+    smobj.start()
+
+    return JsonResponse({
+        'success': 1,
+        'message': '创建订阅任务成功',
+        'task_id': smobj.st.task_id
+    })
+
+
+@login_required
+def get_subscribe_progress(request):
+    if request.method != 'GET':
+        return HttpResponseRedirect(reverse('mod_manager:index'))
+
+    task_id = request.GET.get('task_id', '')
+    try:
+        st = SubscribeTask.objects.get(pk=task_id)
+    except SubscribeTask.DoesNotExist:
+        return JsonResponse({'success': 0, 'message': 'task_id不存在！'})
+
+    return JsonResponse({
+        'success': 1,
+        # 'message': '成功获取订阅日志',
+        # 'task_id': st.task_id,
+        'status': st.status,
+        'message': st.message,
+        'download_progress': st.download_progress
+    })
 
 
 @login_required

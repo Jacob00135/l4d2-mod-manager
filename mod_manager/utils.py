@@ -9,6 +9,7 @@ from base64 import b64encode
 from urllib import parse as urllib_parse
 from threading import Thread
 from pyquery import PyQuery
+from mod_manager.models import SubscribeTask
 
 global_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0'
 
@@ -155,6 +156,11 @@ class SubscribeMod(Thread):
         self.total_size = None
         self.downloaded_size = None
 
+        self.st = SubscribeTask()
+        self.st.save()
+
+        self.before_write_time = 0
+
     def create_subscribe_mission(self):
         """view: create_subscribe_mission"""
         url_obj = urllib_parse.urlparse(self.subscribe_url)
@@ -187,15 +193,15 @@ class SubscribeMod(Thread):
         headers = {
             'Accept': '*/*',
             'Host': 'steamworkshop.download',
-            'Referer': 'http://steamworkshop.download/',
+            # 'Referer': 'http://steamworkshop.download/',
             'Priority': 'u=0, i',
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': global_user_agent
         }
-        response = self.session.get(url, headers=headers, timeout=10)
         try:
+            response = self.session.get(url, headers=headers, timeout=10)
             response.raise_for_status()
-        except requests.HTTPError as e:
+        except Exception as e:
             return {
                 'success': 0,
                 'message': '通过steamworkshop.download请求MOD文件直链失败！\n{}'.format(e)
@@ -231,11 +237,11 @@ class SubscribeMod(Thread):
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': global_user_agent
         }
-        response = self.session.get(self.mod_url, headers=headers, stream=True)
 
         try:
+            response = self.session.get(self.mod_url, headers=headers, stream=True, timeout=10)
             response.raise_for_status()
-        except requests.HTTPError as e:
+        except Exception as e:
             return {
                 'success': 0,
                 'message': '请求下载MOD失败！\n{}'.format(e)
@@ -258,42 +264,60 @@ class SubscribeMod(Thread):
             )
         }
 
-    def download_mod(self):
-        with open(self.mod_save_path, 'wb') as f:
-            for chunk in self.download_response.iter_content(chunk_size=1024):
-                self.downloaded_size = self.downloaded_size + f.write(chunk)
+    def download_mod(self, inner_function=None):
+        if inner_function is None:
+            inner_function = lambda: None
+
+        try:
+            with open(self.mod_save_path, 'wb') as f:
+                for chunk in self.download_response.iter_content(chunk_size=1024):
+                    self.downloaded_size = self.downloaded_size + f.write(chunk)
+                    inner_function()
+        except Exception as e:
+            return {
+                'success': 0,
+                'message': '下载失败！\n{}'.format(e)
+            }
+
+        return {
+            'success': 1,
+            'message': '下载成功！订阅已完成'
+        }
 
     def get_download_progress(self):
         return math.ceil((self.downloaded_size / self.total_size) * 100)
 
+    def update_subscribe_task(self):
+        if time.time() - self.before_write_time > 1:
+            self.st.download_progress = self.get_download_progress()
+            self.st.save()
+            self.before_write_time = time.time()
+
     def run(self):
-        self.download_mod()
+        functions = [
+            self.create_subscribe_mission,
+            self.request_mod_url,
+            self.request_file_headers
+        ]
+        for f in functions:
+            self.st.status = f.__name__
+            self.st.save()
 
+            response = f()
+            self.st.message = self.st.message + response['message'] + '\n\n'
+            if response['success'] == 0:
+                self.st.status = 'end'
+                self.st.save()
+                return None
 
-def run_subscribe_mod(subscribe_url, save_dir_path):
-    smobj = SubscribeMod(subscribe_url, addons_path)
-    functions = [
-        smobj.create_subscribe_mission,
-        smobj.request_mod_url,
-        smobj.request_file_headers
-    ]
-    for f in functions:
-        response = f()
-        print(response['message'])
-        print()
-        if response['success'] != 1:
-            return None
+        self.st.status = 'download_mod'
+        self.st.save()
 
-    smobj.start()
-
-    progress = smobj.get_download_progress()
-    while progress < 100:
-        print('下载进度：{}%'.format(progress))
-        progress = smobj.get_download_progress()
-        time.sleep(1)
-    print('下载进度：{}'.format(progress))
-    time.sleep(2)
-    print('下载完毕')
+        response = self.download_mod(inner_function=self.update_subscribe_task)
+        self.st.status = 'end'
+        self.st.message = self.st.message + response['message'] + '\n\n'
+        self.st.download_progress = 100
+        self.st.save()
 
 
 def format_disk_unit(num):
@@ -384,9 +408,3 @@ def check_filename_legality(filename):
             return False
 
     return True
-
-
-if __name__ == '__main__':
-    addons_path = '/home/xjy/.local/share/Steam/steamapps/common/Left 4 Dead 2/left4dead2/addons/'
-    subscribe_url = 'https://steamcommunity.com/sharedfiles/filedetails/?id=3461821630'
-    run_subscribe_mod(subscribe_url, addons_path)
