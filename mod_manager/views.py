@@ -116,7 +116,44 @@ def get_subscribe_progress(request):
 
 @login_required
 def upload_mod(request):
+    if request.method != 'POST':
+        return render(request, 'mod_manager/upload-mod.html')
+
+    f = request.FILES.get('file')
+    if f is None:
+        return JsonResponse({'success': 0, 'message': '未上传文件'})
+    print('-' * 80)
+    print([f])
+    print([f.name])
+    print([f.size])
+    print('-' * 80)
+    save_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, f.name)
+    if os.path.exists(save_path):
+        return JsonResponse({'success': 0, 'message': '文件已存在！'})
+
+    with open(save_path, 'wb') as save_f:
+        for chunk in f.chunks():
+            save_f.write(chunk)
+
+    return JsonResponse({'success': 1, 'message': '成功保存文件'});
+
+
+@login_required
+def file_exist(request):
     if request.method != 'GET':
         return HttpResponseRedirect(reverse('mod_manager:index'))
 
-    return render(request, 'mod_manager/upload-mod.html')
+    filename = request.GET.get('filename')
+    if filename is None:
+        return JsonResponse({'success': 0, 'message': '缺少查询字符串filename'})
+
+    if not check_filename_legality(filename):
+        return JsonResponse({'success': 0, 'message': '不合法的文件名'})
+
+    if filename.rsplit('.', 1).pop() != 'vpk':
+        return JsonResponse({'success': 0, 'message': '必须是vpk文件'})
+
+    mod_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, filename)
+    exist = int(os.path.exists(mod_path))
+
+    return JsonResponse({'success': 1, 'exist': exist})

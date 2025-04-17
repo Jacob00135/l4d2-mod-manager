@@ -1,0 +1,134 @@
+#main h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: #b0b0b0;
+    text-align: center;
+    font-weight: 400;
+}
+
+#main .hint-info {
+    margin: 0;
+    padding: 4px 0;
+    color: #9fb08b;
+    text-align: center;
+    font-size: 17px;
+}
+
+#main #upload_form {
+    box-sizing: border-box;
+    position: relative;
+    height: 40px;
+    margin-top: 20px;
+    padding-right: 100px;
+}
+
+#main #upload_form .select-file {
+    box-sizing: border-box;
+    position: relative;
+    height: 100%;
+    background-color: #122133;
+    transition: background-color .2s;
+}
+
+#main #upload_form .select-file:hover {
+    background-color: #1a2e46;
+}
+
+#main #upload_form .select-file #file {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-width: 0;
+    opacity: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+#main #upload_form .select-file .filename {
+    width: 100%;
+    height: 100%;
+    color: #b0b0b0;
+    text-align: center;
+    line-height: 40px;
+}
+
+#main #upload_form .submit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    height: 100%;
+    padding: 0;
+    border-width: 0;
+    background-color: #477497;
+    color: #a7d5f0;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #upload_form .submit-button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main #upload_file_list {
+    margin: 50px 0 0;
+    padding: 0;
+}
+
+#main #upload_file_list > .upload-file {
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid #101315;
+    border-bottom-width: 0;
+    background-color: #283444;
+    font-size: 16px;
+    color: #a7d5f0;
+    list-style: none;
+}
+
+#main #upload_file_list > .upload-file:last-child {
+    border-bottom-width: 1px;
+}
+
+#main #upload_file_list > .upload-file .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 0;
+    height: 100%;
+    background-color: #36648070;
+    transition: width .2s;
+}
+
+#main #upload_file_list > .upload-file .filename {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 10px 70px 10px 16px;
+}
+
+#main #upload_file_list > .upload-file .filename .upload-info {
+    color: #ff3b6b;
+    font-size: 14px;
+}
+
+#main #upload_file_list > .upload-file .progress-text {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 70px;
+    height: 44px;
+    margin-top: -22px;
+    line-height: 44px;
+    text-align: center;
+}
+

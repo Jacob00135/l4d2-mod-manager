@@ -10,4 +10,5 @@ urlpatterns = [
     path('subscribe_mod/', views.subscribe_mod, name='subscribe_mod'),
     path('get_subscribe_progress/', views.get_subscribe_progress, name='get_subscribe_progress'),
     path('upload_mod/', views.upload_mod, name='upload_mod'),
+    path('file_exist/', views.file_exist, name='file_exist'),
 ]

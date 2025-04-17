@@ -120,6 +120,7 @@ class VPKParser(object):
         # start = start - 1
 
         # 寻找值的末尾位置
+        end = start
         for end in range(start, len(row)):
             if row[end] == '"':
                 break
