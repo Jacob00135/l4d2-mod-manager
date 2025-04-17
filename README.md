@@ -13,7 +13,6 @@ PYTHON_PATH=<Python解释器路径>
 HOST=<网站host>
 PORT=<网站端口号>
 
-$PYTHON_PATH manage.py makemigrations
 $PYTHON_PATH manage.py migrate
 $PYTHON_PATH manage.py runserver $HOST:$PORT
 ```
