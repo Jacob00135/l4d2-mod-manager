@@ -5,3 +5,4 @@ connect_db.sh
 db.sqlite3
 start.sh
 app.log
+temp.py

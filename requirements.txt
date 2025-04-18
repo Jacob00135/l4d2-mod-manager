@@ -3,3 +3,4 @@ vpk==1.4.0
 requests==2.32.3
 psutil==7.0.0
 pyquery==2.0.1
+rcon==2.4.9

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5x-ql64u-=gcp))#_aqxptjy^tr9l52#(8tt%=)2)4+lplqf4+'
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -127,3 +128,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 L4D2_MOD_MANAGER_ADMIN_USERNAME = os.environ['L4D2_MOD_MANAGER_ADMIN_USERNAME']
 L4D2_MOD_MANAGER_ADMIN_PASSWORD = os.environ['L4D2_MOD_MANAGER_ADMIN_PASSWORD']
 L4D2_MOD_ADDONS_PATH = os.environ['L4D2_MOD_ADDONS_PATH']
+
