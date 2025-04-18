@@ -29,7 +29,7 @@
 </div>
 
 <h2 class="log-title">服务器日志</h2>
-<div id="server_log">
+<div id="server_log" data-log-url="{% url 'server_manager:get_server_log' %}">
     <textarea class="log-panel" readonly></textarea>
 </div>
 {% endblock content %}

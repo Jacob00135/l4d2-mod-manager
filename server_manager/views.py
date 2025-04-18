@@ -28,3 +28,14 @@ def index(request):
         'operation_info': operation_info
     })
 
+
+@login_required
+def get_server_log(request):
+    try:
+        with open(settings.L4D2_SCREEN_LOG_PATH, 'r') as f:
+            content = f.read()
+    except Exception as e:
+        return JsonResponse({'success': 0, 'log': str(e)})
+
+    return JsonResponse({'success': 1, 'log': content})
+
