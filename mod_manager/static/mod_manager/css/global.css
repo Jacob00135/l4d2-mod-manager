@@ -87,6 +87,10 @@ body {
     fill: #a7d5f0;
 }
 
+#top_nav .nav-main .button.server-manager svg {
+    fill: #a7d5f0;
+}
+
 #top_nav .nav-main .button.logout svg {
     fill: transparent;
     stroke: #a7d5f0;

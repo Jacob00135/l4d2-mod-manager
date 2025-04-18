@@ -1,8 +1,8 @@
 (() => {
-    document.querySelector('#file').addEventListener('change', changeFileInput);
+    document.querySelector('#file').addEventListener('change', changeFileInputEvent);
     document.querySelector('#upload_form').addEventListener('submit', submitUploadFormEvent);
 
-    function changeFileInput(e) {
+    function changeFileInputEvent(e) {
         const input = e.target;
         const files = input.files;
 
@@ -25,6 +25,20 @@
                             <div class="progress-text">0%</div>`;
             uploadFileList.appendChild(li);
         }
+    }
+    
+    function disableUploadForm() {
+        const form = document.getElementById('upload_form');
+        form.classList.add('disabled');
+        form['file'].setAttribute('disabled', 'disabled');
+        form.querySelector('.submit-button').setAttribute('disabled', 'disabled');
+    }
+
+    function enableUploadForm() {
+        const form = document.getElementById('upload_form');
+        form.classList.remove('disabled');
+        form['file'].removeAttribute('disabled');
+        form.querySelector('.submit-button').removeAttribute('disabled');
     }
 
     function showUploadInfo(index, message) {
@@ -84,7 +98,7 @@
             results = [];
         }
         if (results.length >= files.length) {
-            console.log(results);
+            enableUploadForm();
             return results;
         }
 
@@ -127,6 +141,8 @@
 
     function submitUploadFormEvent(e) {
         e.preventDefault();
+
+        disableUploadForm();
 
         const form = e.target;
         uploadAllFile(form['file'].files);

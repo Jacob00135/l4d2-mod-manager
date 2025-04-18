@@ -30,7 +30,7 @@
     transition: background-color .2s;
 }
 
-#main #upload_form .select-file:hover {
+#main #upload_form:not(.disabled) .select-file:hover {
     background-color: #1a2e46;
 }
 
@@ -46,6 +46,10 @@
     opacity: 0;
     outline: none;
     cursor: pointer;
+}
+
+#main #upload_form.disabled .select-file #file {
+    cursor: not-allowed;
 }
 
 #main #upload_form .select-file .filename {
@@ -73,7 +77,11 @@
     transition: background-color .2s;
 }
 
-#main #upload_form .submit-button:hover {
+#main #upload_form.disabled .submit-button {
+    cursor: not-allowed;
+}
+
+#main #upload_form:not(.disabled) .submit-button:hover {
     background-color: #5095be;
     color: #f7f7f7;
 }

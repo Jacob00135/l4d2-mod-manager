@@ -1,0 +1,22 @@
+{% extends "mod_manager/base.html" %}
+{% load static %}
+
+{% block title %}服务管理{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'server_manager/css/index.css' %}">
+{% endblock style %}
+
+{% block content %}
+<h1>服务管理</h1>
+<p class="current-server-status">当前服务器状态：{{ current_server_status }}</p>
+
+<div id="control-box">
+    <button type="button" class="action-button start-server">启动服务</button>
+    <button type="button" class="action-button stop-servere">停止服务</button>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'server_manager/js/index.js' %}"></script>
+{% endblock javascript %}

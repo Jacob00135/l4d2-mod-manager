@@ -9,3 +9,10 @@ class SubscribeTask(models.Model):
     download_progress = models.IntegerField(default=0)
     status = models.CharField(max_length=255, default='init')
     message = models.TextField(default='')
+
+    def __str__(self):
+        return self.task_id
+
+    def __repr__(self):
+        return self.task_id
+
