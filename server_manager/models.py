@@ -15,6 +15,10 @@ class OperationInfo(models.Model):
         if info_set:
             return info_set[0]
 
+        info_set = OperationInfo.objects.filter(status='stopped').order_by('-stop_time')
+        if info_set:
+            return info_set[0]
+
         return None
 
     def __str__(self):

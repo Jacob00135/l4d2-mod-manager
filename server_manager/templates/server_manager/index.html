@@ -9,11 +9,28 @@
 
 {% block content %}
 <h1>服务管理</h1>
-<p class="current-server-status">当前服务器状态：{{ current_server_status }}</p>
+<p class="current-server-status">当前服务器状态：{{ operation_info.status }}（{{ operation_info.start_time }}~{{ operation_info.stop_time }}）</p>
 
 <div id="control-box">
-    <button type="button" class="action-button start-server">启动服务</button>
-    <button type="button" class="action-button stop-servere">停止服务</button>
+    <div class="button-group">
+        <button type="button" class="action-button start-server">
+            <svg viewBox="0 0 512 512"><path d="M133 440a35.37 35.37 0 0 1-17.5-4.67c-12-6.8-19.46-20-19.46-34.33V111c0-14.37 7.46-27.53 19.46-34.33a35.13 35.13 0 0 1 35.77.45l247.85 148.36a36 36 0 0 1 0 61l-247.89 148.4A35.5 35.5 0 0 1 133 440"/></svg>
+            <div class="text">启动服务</div>
+        </button>
+        <button type="button" class="action-button stop-server">
+            <svg viewBox="0 0 512 512"><path d="M392 432H120a40 40 0 0 1-40-40V120a40 40 0 0 1 40-40h272a40 40 0 0 1 40 40v272a40 40 0 0 1-40 40"/></svg>
+            <div class="text">停止服务</div>
+        </button>
+    </div>
+    <form id="changelevel_form" action="" method="post">
+        <input type="text" id="chapter-code" name="chapter-code" required autocomplete="off" placeholder="建图代码" />
+        <input type="submit" class="submit-button" value="换图" />
+    </form>
+</div>
+
+<h2 class="log-title">服务器日志</h2>
+<div id="server_log">
+    <textarea class="log-panel" readonly></textarea>
 </div>
 {% endblock content %}
 

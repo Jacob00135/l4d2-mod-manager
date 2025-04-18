@@ -5,3 +5,153 @@
     text-align: center;
     font-weight: 400;
 }
+
+#main .current-server-status
+{
+    margin: 0;
+    padding: 4px 0;
+    color: #9fb08b;
+    text-align: center;
+    font-size: 17px;
+}
+
+#main #control-box {
+    box-sizing: border-box;
+    position: relative;
+    height: 40px;
+    margin-top: 20px;
+    padding-left: 296px;
+}
+
+#main #control-box .button-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 276px;
+    height: 100%;
+}
+
+#main #control-box .button-group .action-button {
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    width: 128px;
+    height: 100%;
+    padding: 0 0 0 46px;
+    border-width: 0;
+    background-color: #477497;
+    font-size: 18px;
+    color: #a7d5f0;
+    text-align: left;
+    line-height: 40px;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #control-box .button-group .action-button:nth-of-type(n + 2) {
+    margin-left: 20px;
+}
+
+#main #control-box .button-group .action-button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main #control-box .button-group .action-button svg {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 26px;
+    height: 26px;
+    margin-top: -13px;
+}
+
+#main #control-box .button-group .action-button.start-server svg {
+    fill: #03e69f;
+}
+
+#main #control-box .button-group .action-button.stop-server svg {
+    fill: #a21a1a;
+}
+
+#main #control-box #changelevel_form {
+    box-sizing: border-box;
+    position: relative;
+    height: 100%;
+    padding-right: 100px;
+}
+
+#main #control-box #changelevel_form .submit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    height: 100%;
+    padding: 0;
+    border-width: 0;
+    background-color: #477497;
+    color: #a7d5f0;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #control-box #changelevel_form #chapter-code {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    border: 1px solid #122133;
+    background-color: #122133;
+    font-size: 18px;
+    color: #b0b0b0;
+    outline: none;
+    transition: border-color .2s;
+}
+
+#main #control-box #changelevel_form #chapter-code:focus {
+    border-color: #5095be;
+}
+
+#main #control-box #changelevel_form #chapter-code::placeholder {
+    color: #636361;
+}
+
+#main #control-box #changelevel_form .submit-button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main .log-title {
+    margin: 20px 0 0 0;
+    padding: 20px 0;
+    color: #b0b0b0;
+    font-weight: 400;
+    text-align: center;
+}
+
+#main #server_log {
+    box-sizing: border-box;
+    height: 500px;
+    padding: 20px;
+    background-color: #122133;
+}
+
+#main #server_log .log-panel {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: #9b9b9b;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
