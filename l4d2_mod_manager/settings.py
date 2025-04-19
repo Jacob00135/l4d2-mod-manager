@@ -129,4 +129,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 L4D2_MOD_MANAGER_ADMIN_USERNAME = os.environ['L4D2_MOD_MANAGER_ADMIN_USERNAME']
 L4D2_MOD_MANAGER_ADMIN_PASSWORD = os.environ['L4D2_MOD_MANAGER_ADMIN_PASSWORD']
 L4D2_MOD_ADDONS_PATH = os.environ['L4D2_MOD_ADDONS_PATH']
+L4D2_SERVER_START_SCRIPT_PATH = os.environ['L4D2_SERVER_START_SCRIPT_PATH']
+L4D2_SERVER_RCON_PASSWORD = os.environ['L4D2_SERVER_RCON_PASSWORD']
+L4D2_SCREEN_SESSION_NAME = os.environ['L4D2_SCREEN_SESSION_NAME']
 L4D2_SCREEN_LOG_PATH = os.environ['L4D2_SCREEN_LOG_PATH']
+"""
+print('-' * 80)
+for k, v in os.environ.items():
+    if k.startswith('L4D2'):
+        print('{}={}'.format(k, v))
+print('-' * 80)
+"""
