@@ -136,6 +136,19 @@ def stop_l4d2_server(rcon_host, rcon_port, rcon_password, session_name):
     return {'success': 1, 'output': result.stdout, 'error': result.stderr}
 
 
+def change_coop_level(rcon_host, rcon_port, rcon_password, chapter_code):
+    try:
+        with SourceRconClient(rcon_host, rcon_port, passwd=rcon_password, timeout=5) as client:
+            response = client.run('changelevel {}'.format(chapter_code))
+    except Exception as e:
+        return {'success': 0, 'output': '', 'error': str(e)}
+
+    if response:
+        return {'success': 0, 'output': '', 'error': response}
+
+    return {'success': 1, 'output': '', 'error': ''}
+
+
 if __name__ == '__main__':
     """
     单元测试：
@@ -143,5 +156,7 @@ if __name__ == '__main__':
     2. 未启动求生服务时，执行start_l4d2_server
     3. 未启动求生服务时，执行stop_l4d2_server
     4. 已启动求生服务时，执行stop_l4d2_server
+    5. 建图代码不存在时，执行change_coop_level
+    6. 建图代码存在时，执行change_coop_level
     """
 

@@ -22,7 +22,7 @@
             <div class="text">停止服务</div>
         </button>
     </div>
-    <form id="changelevel_form" action="" method="post">
+    <form id="changelevel_form" action="{% url 'server_manager:changelevel' %}" method="post">
         {% csrf_token %}
         <input type="text" id="chapter-code" name="chapter-code" required autocomplete="off" placeholder="建图代码" />
         <input type="submit" class="submit-button" value="换图" />
