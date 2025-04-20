@@ -135,7 +135,6 @@ class SubscribeMod(Thread):
     3. 发送GET请求来下载MOD文件，并在响应头中获取文件名
     4. 以MOD在Steam创意工坊的ID来命名文件
     5. 下载文件
-    6. 输出文件的SHA256码
     """
 
     def __init__(self, subscribe_url, save_dir_path):

@@ -1,5 +1,6 @@
 import re
 import subprocess
+from rcon.source import Client as SourceRconClient
 
 
 def read_server_log(log_path):
@@ -11,26 +12,19 @@ def read_server_log(log_path):
     return content
 
 
-def start_l4d2_server(session_name, log_path, start_script_path):
-    print('-' * 80)
-    number_strings = '0123456789'
-
-    # 检查会话是否存在
+def get_screen_session_name():
     """
     screen -ls
     """
     args = ['screen', '-ls']
     result = subprocess.run(args, capture_output=True, text=True)
-    print('-' * 80)
-    print(result)
-    print('-' * 80)
     if result.stderr:
         return {'success': 0, 'output': result.stdout, 'error': result.stderr}
 
     session_name_list = []
     func_list = [
         lambda c: c.isspace(),
-        lambda c: c in number_strings,
+        lambda c: c in '0123456789',
         lambda c: c == '.'
     ]
     for row in result.stdout.split('\n'):
@@ -46,7 +40,27 @@ def start_l4d2_server(session_name, log_path, start_script_path):
         while i < len(row) and not row[i].isspace():
             i = i + 1
         session_name_list.append(row[start:i])
-    if session_name in session_name_list:
+
+    return {'success': 1, 'output': session_name_list, 'error': ''}
+
+
+def screen_session_exist(session_name):
+    result = get_screen_session_name()
+    if result['success'] == 0:
+        return result
+    return {
+        'success': 1,
+        'output': session_name in result['output'],
+        'error': ''
+    }
+
+
+def start_l4d2_server(session_name, log_path, start_script_path):
+    # 检查会话是否存在
+    func_result = screen_session_exist(session_name)
+    if func_result['success'] == 0:
+        return func_result
+    if func_result['output']:
         return {'success': 0, 'output': '', 'error': '服务会话已存在！'}
 
     # 清空会话日志
@@ -73,8 +87,61 @@ def start_l4d2_server(session_name, log_path, start_script_path):
         'bash {}\n'.format(start_script_path)
     ]
     result = subprocess.run(args, capture_output=True, text=True)
-    if result.stderr:
-        return {'success': 0, 'output': result.stdout, 'error': result.stderr}
-    
+
+    # 检查会话是否存在
+    func_result = get_screen_session_name()
+    if func_result['success'] == 0:
+        return func_result
+    if not func_result['output']:
+        return {'success': 0, 'output': '', 'error': '未知错误，无法创建screen会话'}
+
     return {'success': 1, 'output': result.stdout, 'error': result.stderr}
+
+
+def stop_l4d2_server(rcon_host, rcon_port, rcon_password, session_name):
+    # 检查会话是否存在
+    func_result = screen_session_exist(session_name)
+    if func_result['success'] == 0:
+        return func_result
+    if not func_result['output']:
+        return {'success': 0, 'output': '', 'error': '会话不存在！'}
+
+    try:
+        with SourceRconClient(rcon_host, rcon_port, passwd=rcon_password, timeout=5) as client:
+            response = client.run('quit')
+    except Exception as e:
+        return {'success': 0, 'output': '', 'error': str(e)}
+
+    if response:
+        return {'success': 0, 'output': '', 'error': response}
+
+    """
+    screen -S l4d2 -X stuff "exit$(printf '\\015')"
+    """
+    args = [
+        'screen',
+        '-S', session_name,
+        '-X', 'stuff',
+        'exit\n'
+    ]
+    result = subprocess.run(args, capture_output=True, text=True)
+
+    # 检查会话是否存在
+    func_result = screen_session_exist(session_name)
+    if func_result['success'] == 0:
+        return func_result
+    if not func_result['output']:
+        return {'success': 0, 'output': '', 'error': '未知错误，无法创建screen会话'}
+
+    return {'success': 1, 'output': result.stdout, 'error': result.stderr}
+
+
+if __name__ == '__main__':
+    """
+    单元测试：
+    1. 已经启动求生服务时，执行start_l4d2_server
+    2. 未启动求生服务时，执行start_l4d2_server
+    3. 未启动求生服务时，执行stop_l4d2_server
+    4. 已启动求生服务时，执行stop_l4d2_server
+    """
 

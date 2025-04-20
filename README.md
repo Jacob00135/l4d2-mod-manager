@@ -33,6 +33,9 @@ vim ~/.screenrc
 # 将screen的日志输出到该路径的文件，其中%t表示screen会话创建时的-t参数
 logfile /home/username/screenlog/screenlog_%t.log
 
+# screen更新日志文件的间隔（秒）
+logfileflush 5
+
 :wq
 ```
 
@@ -45,6 +48,7 @@ export L4D2_MOD_MANAGER_ADMIN_USERNAME=<管理员名称>
 export L4D2_MOD_MANAGER_ADMIN_PASSWORD=<管理员密码>
 export L4D2_MOD_ADDONS_PATH=<游戏的addons目录>
 export L4D2_SERVER_START_SCRIPT_PATH=<启动求生服务的bash脚本路径>
+export L4D2_SERVER_RCON_PORT=<求生服务的端口号>
 export L4D2_SERVER_RCON_PASSWORD=<求生服务的rcon_password>
 export L4D2_SCREEN_SESSION_NAME=<启动求生服务的screen会话名称>
 export L4D2_SCREEN_LOG_PATH=<screen日志路径>
@@ -64,6 +68,7 @@ export L4D2_MOD_MANAGER_ADMIN_USERNAME="dd"
 export L4D2_MOD_MANAGER_ADMIN_PASSWORD="123456qwert!@#$%"
 export L4D2_MOD_ADDONS_PATH="/home/dd/l4d2/left4dead2/addons/"
 export L4D2_SERVER_START_SCRIPT_PATH="/home/dd/run_l4d2_server.sh"
+export L4D2_SERVER_RCON_PORT="65500"
 export L4D2_SERVER_RCON_PASSWORD="123456qwert!@#$%"
 export L4D2_SCREEN_SESSION_NAME="l4d2"
 export L4D2_SCREEN_LOG_PATH="/home/dd/screenlog/l4d2.log"
