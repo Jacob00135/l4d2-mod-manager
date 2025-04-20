@@ -1,6 +1,7 @@
 import re
 import subprocess
 from rcon.source import Client as SourceRconClient
+from .models import OperationInfo
 
 
 def read_server_log(log_path):
@@ -93,7 +94,11 @@ def start_l4d2_server(session_name, log_path, start_script_path):
     if func_result['success'] == 0:
         return func_result
     if not func_result['output']:
-        return {'success': 0, 'output': '', 'error': '未知错误，无法创建screen会话'}
+        return {
+            'success': 0,
+            'output': '',
+            'error': '未知错误，无法创建screen会话\n{}\n{}'.format(result.stdout, result.stderr)
+        }
 
     return {'success': 1, 'output': result.stdout, 'error': result.stderr}
 
@@ -115,23 +120,26 @@ def stop_l4d2_server(rcon_host, rcon_port, rcon_password, session_name):
     if response:
         return {'success': 0, 'output': '', 'error': response}
 
+    for info in OperationInfo.objects.filter(status='running'):
+        info.status = 'stopped'
+        info.save()
+
     """
-    screen -S l4d2 -X stuff "exit$(printf '\\015')"
+    screen -S l4d2 -X quit
     """
-    args = [
-        'screen',
-        '-S', session_name,
-        '-X', 'stuff',
-        'exit\n'
-    ]
+    args = ['screen', '-S', session_name, '-X', 'quit']
     result = subprocess.run(args, capture_output=True, text=True)
 
     # 检查会话是否存在
     func_result = screen_session_exist(session_name)
     if func_result['success'] == 0:
         return func_result
-    if not func_result['output']:
-        return {'success': 0, 'output': '', 'error': '未知错误，无法创建screen会话'}
+    if func_result['output']:
+        return {
+            'success': 0,
+            'output': '',
+            'error': '未知错误，无法关闭screen会话\n{}\n{}'.format(result.stdout, result.stderr)
+        }
 
     return {'success': 1, 'output': result.stdout, 'error': result.stderr}
 
@@ -147,16 +155,4 @@ def change_coop_level(rcon_host, rcon_port, rcon_password, chapter_code):
         return {'success': 0, 'output': '', 'error': response}
 
     return {'success': 1, 'output': '', 'error': ''}
-
-
-if __name__ == '__main__':
-    """
-    单元测试：
-    1. 已经启动求生服务时，执行start_l4d2_server
-    2. 未启动求生服务时，执行start_l4d2_server
-    3. 未启动求生服务时，执行stop_l4d2_server
-    4. 已启动求生服务时，执行stop_l4d2_server
-    5. 建图代码不存在时，执行change_coop_level
-    6. 建图代码存在时，执行change_coop_level
-    """
 

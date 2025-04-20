@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.urls import reverse
 from django.conf import settings
 from .models import SubscribeTask
-from .utils import get_all_mod_info, get_disk_info, check_filename_legality, SubscribeMod
+from .utils import get_all_mod_info, get_disk_info, check_filename_legality, SubscribeMod, compute_file_sha256
 
 # Create your views here.
 
@@ -155,4 +155,19 @@ def file_exist(request):
     exist = int(os.path.exists(mod_path))
 
     return JsonResponse({'success': 1, 'exist': exist})
+
+
+@login_required
+def get_sha256_code(request):
+    if request.method != 'GET':
+        return JsonResponse({'success': 0, 'message': '不支持的请求方式'})
+
+    filename = request.GET.get('filename', '')
+    mod_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, filename)
+    if not os.path.exists(mod_path):
+        return JsonResponse({'success': 0, 'message': '文件不存在！'})
+
+    code = compute_file_sha256(mod_path)
+
+    return JsonResponse({'success': 1, 'data': code})
 

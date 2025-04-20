@@ -118,11 +118,43 @@
 }
 
 #main #mod_list > .mod-info .middle .bottom .mod-sha256 {
+    position: relative;
     height: 18px;
+    padding-left: 64px;
+}
+
+#main #mod_list > .mod-info .middle .bottom .mod-sha256 button {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 64px;
+    height: 100%;
+    padding: 0;
+    border-width: 0;
+    border-right: 1px solid #6d85a2;
+    background-color: #18222f;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: center;
+    color: #9fb08b;
+    font-style: italic;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #mod_list > .mod-info .middle .bottom .mod-sha256 button:hover {
+    background-color: #31373e
+}
+
+#main #mod_list > .mod-info .middle .bottom .mod-sha256 .text {
+    box-sizing: border-box;
+    height: 18px;
+    padding-left: 10px;
+    background-color: #18222f;
     color: #9fb08b;
     font-size: 12px;
     line-height: 18px;
-    font-style: italic;
 }
 
 #main #mod_list > .mod-info .right {

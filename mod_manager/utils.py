@@ -366,7 +366,7 @@ def get_all_mod_info(addons_path, sort=False):
         mod_info = {
             'filename': fn,
             'file_size_byte': os.stat(mod_path).st_size,
-            'sha256': compute_file_sha256(mod_path)
+            #'sha256': compute_file_sha256(mod_path)
         }
         mod_info['file_size'] = format_disk_unit(mod_info['file_size_byte'])
         parser = VPKParser(mod_path)

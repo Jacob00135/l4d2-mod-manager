@@ -81,7 +81,7 @@ def stop_server(request):
         rcon_host='127.0.0.1',
         rcon_port=settings.L4D2_SERVER_RCON_PORT,
         rcon_password=settings.L4D2_SERVER_RCON_PASSWORD,
-        session_name=L4D2_SCREEN_SESSION_NAME
+        session_name=settings.L4D2_SCREEN_SESSION_NAME
     )
 
     if result['success'] == 0:
@@ -89,10 +89,6 @@ def stop_server(request):
             'success': 0,
             'log': '\n'.join([result['output'], result['error']])
         })
-
-    for info in info_set:
-        info.status = 'stopped'
-        info.save()
 
     return JsonResponse({
         'success': 1,
@@ -102,10 +98,6 @@ def stop_server(request):
 
 @login_required
 def changelevel(request):
-    """
-    1. 检查是否是POST请求。如果不是，返回错误；如果是，进行下一步
-    2. 使用rcon切换章节。如果失败，返回错误；如果成功，返回提示
-    """
     if request.method != 'POST':
         return JsonResponse({'success': 0, 'log': '不支持的请求方式'})
 
@@ -117,7 +109,7 @@ def changelevel(request):
         rcon_host='127.0.0.1',
         rcon_port=settings.L4D2_SERVER_RCON_PORT,
         rcon_password=settings.L4D2_SERVER_RCON_PASSWORD,
-        session_name=chapter_code
+        chapter_code=chapter_code
     )
 
     if result['success'] == 0:

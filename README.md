@@ -58,7 +58,7 @@ HOST=<网站host>
 PORT=<网站端口号>
 
 $PYTHON_PATH manage.py migrate
-$PYTHON_PATH manage.py runserver $HOST:$PORT
+$PYTHON_PATH manage.py runserver $HOST:$PORT --insecure
 ```
 
 一个例子：
@@ -73,12 +73,12 @@ export L4D2_SERVER_RCON_PASSWORD="123456qwert!@#$%"
 export L4D2_SCREEN_SESSION_NAME="l4d2"
 export L4D2_SCREEN_LOG_PATH="/home/dd/screenlog/l4d2.log"
 
-PYTHON_PATH="/home/xjy/miniconda3/envs/l4d2-mod-manager/bin/python"
+PYTHON_PATH="/home/dd/miniconda3/bin/python"
 HOST="0.0.0.0"
 PORT="5000"
 
 $PYTHON_PATH manage.py migrate
-$PYTHON_PATH manage.py runserver $HOST:$PORT
+$PYTHON_PATH manage.py runserver $HOST:$PORT --insecure
 ```
 
 最后，执行`start.sh`以启动：
