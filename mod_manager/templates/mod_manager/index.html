@@ -9,9 +9,16 @@
 
 {% block content %}
 <h1>MOD列表</h1>
-<p class="server-info sort-info">MOD排序方式：地图排在其他MOD前面，按文件大小从大到小排序</p>
+<!-- <p class="server-info sort-info">MOD排序方式：地图排在其他MOD前面，按文件大小从大到小排序</p>-->
 <p class="server-info addons-path">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</p>
 <p class="server-info disk-info">磁盘使用情况：{{ disk_info.used }} / {{ disk_info.total }} ({{ disk_info.percent }})</p>
+
+<form id="change_max_number_form" action="{% url 'mod_manager:change_max_page_mod_number' %}" method="post">
+    {% csrf_token %}
+    <label for="max-number">每页显示：</label>
+    <input type="number" id="max-number" name="max-number" value="{{ MAX_PAGE_MOD_NUMBER }}" required autocomplete="off" />
+    <input type="submit" class="submit-button" value="确定" />
+</form>
 
 <ul id="mod_list">
     {% for mod_info in all_mod_info %}
@@ -25,7 +32,7 @@
         </div>
         <div class="middle">
             <div class="mod-name">{{ mod_info.name }}</div>
-            <div class="mod-scription">{{ mod_info.scription }}</div>
+            <div class="mod-description">{{ mod_info.description }}</div>
             <div class="bottom">
                 <div class="mod-filename">文件名：{{ mod_info.filename }} ({{ mod_info.file_size }})</div>
                 <div class="mod-sha256" data-index="{{ forloop.counter0 }}">
@@ -57,6 +64,30 @@
     </li>
     {% endfor %}
 </ul>
+
+<div id="page_nav">
+    {% if current_page == 1 %}
+        <a class="disabled" href="javascript:;">&lt;</a>
+    {% else %}
+        <a href="{% url 'mod_manager:index' %}?p={{ current_page|add:-1 }}">&lt;</a>
+    {% endif %}
+
+    <a class="active" href="javascript:;">{{ current_page }}</a>
+
+    {% if current_page == num_page %}
+        <a class="disabled" href="javascript:;">&gt;</a>
+    {% else %}
+        <a href="{% url 'mod_manager:index' %}?p={{ current_page|add:1 }}">&gt;</a>
+    {% endif %}
+
+    <form id="jump_page_form" action="{% url 'mod_manager:index' %}" method="GET">
+        <input type="number" class="p" name="p" required autocomplete="off" />
+        <input type="submit" class="submit-button" value="跳转" />
+    </form>
+
+    <span class="num-page">共{{ num_page }}页</span>
+</div>
+
 {% endblock content %}
 
 {% block javascript %}

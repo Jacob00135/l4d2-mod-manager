@@ -12,4 +12,5 @@ urlpatterns = [
     path('upload_mod/', views.upload_mod, name='upload_mod'),
     path('file_exist/', views.file_exist, name='file_exist'),
     path('get_sha256_code/', views.get_sha256_code, name='get_sha256_code'),
+    path('change_max_page_mod_number/', views.change_max_page_mod_number, name='change_max_page_mod_number'),
 ]

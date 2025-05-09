@@ -6,9 +6,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.urls import reverse
 from django.conf import settings
 from .models import SubscribeTask
+from . import utils
 from .utils import get_all_mod_info, get_disk_info, check_filename_legality, SubscribeMod, compute_file_sha256
-
-# Create your views here.
 
 
 def login_required(view_func):
@@ -54,10 +53,23 @@ def logout(request):
 
 @login_required
 def index(request):
+    page_number = request.GET.get('p')
+    try:
+        page_number = int(page_number)
+    except Exception as e:
+        page_number = 1
+
+    all_mod_info, num_page, current_page = get_all_mod_info(
+        addons_path=settings.L4D2_MOD_ADDONS_PATH,
+        page=page_number
+    )
     context = {
         'L4D2_MOD_ADDONS_PATH': settings.L4D2_MOD_ADDONS_PATH,
         'disk_info': get_disk_info(settings.L4D2_MOD_ADDONS_PATH),
-        'all_mod_info': get_all_mod_info(settings.L4D2_MOD_ADDONS_PATH, sort=True)
+        'MAX_PAGE_MOD_NUMBER': utils.MAX_PAGE_MOD_NUMBER,
+        'all_mod_info': all_mod_info,
+        'num_page': num_page,
+        'current_page': current_page
     }
 
     return render(request, 'mod_manager/index.html', context)
@@ -170,4 +182,18 @@ def get_sha256_code(request):
     code = compute_file_sha256(mod_path)
 
     return JsonResponse({'success': 1, 'data': code})
+
+
+@login_required
+def change_max_page_mod_number(request):
+    max_number = request.POST.get('max-number')
+    try:
+        max_number = int(max_number)
+    except Exception as e:
+        max_number = utils.MAX_PAGE_MOD_NUMBER
+
+    if max_number > 0:
+        utils.MAX_PAGE_MOD_NUMBER = max_number
+
+    return HttpResponseRedirect(reverse('mod_manager:index'))
 

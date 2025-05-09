@@ -1,4 +1,5 @@
 import re
+import datetime
 import subprocess
 from rcon.source import Client as SourceRconClient
 from .models import OperationInfo
@@ -122,6 +123,7 @@ def stop_l4d2_server(rcon_host, rcon_port, rcon_password, session_name):
 
     for info in OperationInfo.objects.filter(status='running'):
         info.status = 'stopped'
+        info.stop_time = datetime.datetime.now()
         info.save()
 
     """

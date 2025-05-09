@@ -26,6 +26,64 @@
     color: #a7d5f0;
 }
 
+#main #change_max_number_form {
+    box-sizing: border-box;
+    width: 320px;
+    height: 40px;
+    margin: 20px auto 0;
+}
+
+#main #change_max_number_form label {
+    display: block;
+    float: left;
+    width: 100px;
+    height: 100%;
+    color: #c8c8c8;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+#main #change_max_number_form #max-number {
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    width: 100px;
+    height: 100%;
+    padding: 0 10px;
+    border: 1px solid #122133;
+    background-color: #122133;
+    font-size: 20px;
+    color: #b0b0b0;
+    outline: none;
+    transition: border-color .2s;
+}
+
+#main #change_max_number_form #max-number:focus {
+    border-color: #5095be;
+}
+
+#main #change_max_number_form .submit-button {
+    display: block;
+    float: left;
+    width: 90px;
+    height: 100%;
+    margin-left: 10px;
+    padding: 0;
+    border-width: 0;
+    background-color: #477497;
+    color: #a7d5f0;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #change_max_number_form .submit-button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
 #main #mod_list {
     margin: 80px 0 0;
     padding: 0;
@@ -93,7 +151,7 @@
     line-height: 30px;
 }
 
-#main #mod_list > .mod-info .middle .mod-scription {
+#main #mod_list > .mod-info .middle .mod-description {
     box-sizing: border-box;
     overflow: auto;
     height: 100%;
@@ -216,3 +274,96 @@
     font-size: 20px;
     fill: #99aac1;
 }
+
+#main #page_nav {
+    width: 440px;
+    height: 40px;
+    margin: 40px auto 0;
+    text-align: center;
+}
+
+#main #page_nav a {
+    display: block;
+    float: left;
+    width: 40px;
+    height: 100%;
+    border-radius: 4px;
+    background-color: #477497;
+    color: #a7d5f0;
+    font-size: 22px;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #page_nav a:not(.active):not(.disabled):hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main #page_nav a.active,
+#main #page_nav a.disabled {
+    background-color: transparent;
+    cursor: default;
+}
+
+#main #page_nav #jump_page_form {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 100%;
+    margin-left: 20px;
+}
+
+#main #page_nav #jump_page_form .p {
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    width: 100px;
+    height: 100%;
+    padding: 0 10px;
+    border: 1px solid #122133;
+    background-color: #122133;
+    font-size: 20px;
+    color: #b0b0b0;
+    outline: none;
+    transition: border-color .2s;
+}
+
+#main #page_nav #jump_page_form .p:focus {
+    border-color: #5095be;
+}
+
+#main #page_nav #jump_page_form .submit-button {
+    display: block;
+    float: left;
+    width: 90px;
+    height: 100%;
+    margin-left: 10px;
+    padding: 0;
+    border-width: 0;
+    background-color: #477497;
+    color: #a7d5f0;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#main #page_nav #jump_page_form .submit-button:hover {
+    background-color: #5095be;
+    color: #f7f7f7;
+}
+
+#main #page_nav .num-page {
+    display: block;
+    float: left;
+    height: 100%;
+    margin-left: 10px;
+    line-height: 40px;
+    color: #c8c8c8;
+}
+

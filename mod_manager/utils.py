@@ -12,6 +12,7 @@ from pyquery import PyQuery
 from mod_manager.models import SubscribeTask
 
 global_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0'
+MAX_PAGE_MOD_NUMBER = 10
 
 
 def compute_file_sha256(filepath, chunk_size=4096):
@@ -34,7 +35,7 @@ class VPKParser(object):
             'type': 'mod',
             'coop_info': [],
             'name': '',
-            'scription': '',
+            'description': '',
             'cover': ''
         }
 
@@ -44,12 +45,14 @@ class VPKParser(object):
                 if path.startswith('missions/'):
                     self.vpk_info['type'] = 'map'
                     missions = vpk_obj[path].read().decode()
-                    self.vpk_info['coop_info'] = self.extract_missions(missions)
+                    self.vpk_info.update(self.extract_missions(missions))
                 elif path == 'addoninfo.txt':
                     addoninfo = vpk_obj[path].read().decode()
-                    mod_name, mod_scription = self.extract_addoninfo(addoninfo)
-                    self.vpk_info['name'] = mod_name
-                    self.vpk_info['scription'] = mod_scription
+                    addoninfo_data = self.extract_addoninfo(addoninfo)
+                    if self.vpk_info['name'] == '':
+                        self.vpk_info['name'] = addoninfo_data['mod_name']
+                    if self.vpk_info['description'] == '':
+                        self.vpk_info['description'] = addoninfo_data['mod_description']
                 elif path == 'addonimage.jpg':
                     image_base64 = b64encode(vpk_obj[path].read()).decode()
                     self.vpk_info['cover'] = image_base64
@@ -67,7 +70,7 @@ class VPKParser(object):
                 if preceding_index >= len(preceding_keys):
                     break
 
-        # 开始提取信息
+        # 提取每个战役章节的建图代码
         stack = []
         for i in range(r + 1, len(rows)):
             row = rows[i]
@@ -85,21 +88,36 @@ class VPKParser(object):
                 chapter_name = self.get_value_from_vpk_txt_row(row)
                 coop_info[-1]['chapter_name'] = chapter_name
 
-        return coop_info
+        # 提取地图名称、地图简介
+        for row in rows:
+            row_lstrip_lower = row.lstrip().lstrip('"').lower()
+            if row_lstrip_lower.startswith('displaytitle'):
+                mod_name = self.get_value_from_vpk_txt_row(row)
+            elif row_lstrip_lower.startswith('description'):
+                mod_description = self.get_value_from_vpk_txt_row(row)
+
+        return {
+            'coop_info': coop_info,
+            'name': mod_name,
+            'description': mod_description
+        }
 
     def extract_addoninfo(self, addoninfo):
         rows = addoninfo.split('\n')
         mod_name = ''
-        mod_scription = ''
+        mod_description = ''
 
         for row in rows:
             row_lstrip_lower = row.lstrip().lstrip('"').lower()
             if row_lstrip_lower.startswith('addontitle'):
                 mod_name = self.get_value_from_vpk_txt_row(row)
             elif row_lstrip_lower.startswith('addondescription'):
-                mod_scription = self.get_value_from_vpk_txt_row(row)
+                mod_description = self.get_value_from_vpk_txt_row(row)
 
-        return mod_name, mod_scription
+        return {
+            'mod_name': mod_name,
+            'mod_description': mod_description
+        }
 
     @staticmethod
     def get_value_from_vpk_txt_row(row):
@@ -330,7 +348,7 @@ def format_disk_unit(num):
     return '{:.2f} {}'.format(num, unit_list[i])
 
 
-def get_all_mod_info(addons_path, sort=False):
+def get_all_mod_info(addons_path, page=None):
     """
     all_mod_info是保存了每个VPK文件信息的列表，列表中每个元素是mod_info，格式如下：
 
@@ -357,11 +375,23 @@ def get_all_mod_info(addons_path, sort=False):
         ]
     }
     """
-    all_mod_info = []
-    for fn in os.listdir(addons_path):
-        if fn.rsplit('.', 1).pop() != 'vpk':
-            continue
 
+    # 分页
+    filenames = []
+    for fn in os.listdir(addons_path):
+        if fn[fn.rfind('.') + 1:] == 'vpk':
+            filenames.append(fn)
+    num_page = math.ceil(len(filenames) / MAX_PAGE_MOD_NUMBER)
+    if page is not None and 0 < page <= num_page:
+        start = (page - 1) * MAX_PAGE_MOD_NUMBER
+        end = start + MAX_PAGE_MOD_NUMBER
+        filenames = filenames[start:end]
+    else:
+        page = 1
+
+    # 解析vpk
+    all_mod_info = []
+    for fn in filenames:
         mod_path = os.path.join(addons_path, fn)
         mod_info = {
             'filename': fn,
@@ -374,18 +404,7 @@ def get_all_mod_info(addons_path, sort=False):
         mod_info.update(parser.vpk_info)
         all_mod_info.append(mod_info)
 
-    if sort:
-        mod_info_dict = {
-            'mod': [],
-            'map': []
-        }
-        for mod_info in all_mod_info:
-            mod_info_dict[mod_info['type']].append(mod_info)
-        mod_type = sorted(mod_info_dict['mod'], key=lambda d: d['file_size_byte'], reverse=True)
-        map_type = sorted(mod_info_dict['map'], key=lambda d: d['file_size_byte'], reverse=True)
-        all_mod_info = map_type + mod_type
-
-    return all_mod_info
+    return all_mod_info, num_page, page
 
 
 def get_disk_info(path):
