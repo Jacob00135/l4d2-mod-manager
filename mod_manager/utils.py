@@ -44,10 +44,16 @@ class VPKParser(object):
             for path in vpk_obj:
                 if path.startswith('missions/'):
                     self.vpk_info['type'] = 'map'
-                    missions = vpk_obj[path].read().decode()
+                    try:
+                        missions = vpk_obj[path].read().decode()
+                    except UnicodeDecodeError as e:
+                        continue
                     self.vpk_info.update(self.extract_missions(missions))
                 elif path == 'addoninfo.txt':
-                    addoninfo = vpk_obj[path].read().decode()
+                    try:
+                        addoninfo = vpk_obj[path].read().decode()
+                    except UnicodeDecodeError as e:
+                        continue
                     addoninfo_data = self.extract_addoninfo(addoninfo)
                     if self.vpk_info['name'] == '':
                         self.vpk_info['name'] = addoninfo_data['mod_name']
@@ -400,7 +406,18 @@ def get_all_mod_info(addons_path, page=None):
         }
         mod_info['file_size'] = format_disk_unit(mod_info['file_size_byte'])
         parser = VPKParser(mod_path)
-        parser.parse()
+        try:
+            parser.parse()
+        except Exception as e:
+            mod_info.update({
+                'type': 'mod',
+                'name': 'vpk解析失败',
+                'description': str(e),
+                'cover': '',
+                'coop_info': []
+            })
+            all_mod_info.append(mod_info)
+            continue
         mod_info.update(parser.vpk_info)
         all_mod_info.append(mod_info)
 
