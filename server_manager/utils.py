@@ -6,7 +6,7 @@ from .models import OperationInfo
 
 
 def read_server_log(log_path):
-    with open(log_path, 'r') as f:
+    with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
         content = f.read()
     pattern = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
     content = pattern.sub('', content)
