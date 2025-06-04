@@ -1,5 +1,8 @@
 (() => {
     document.getElementById('subscribe_form').addEventListener('submit', submitSubscribeFormEvent);
+    document.querySelectorAll('#subscribe_list > .item .id').forEach((content) => {
+        content.addEventListener('click', unfoldSubscribeItem);
+    });
 
     function updateSubscribeLog(message) {
         message = message.replace(/\n/g, '<br/>');
@@ -102,5 +105,26 @@
                 }, 1000);
             }
         });
+    }
+    
+    function unfoldSubscribeItem(e) {
+        const item = document.querySelectorAll('#subscribe_list > .item')[parseInt(e.target.getAttribute('data-index'))];
+
+        // 折叠/展开 内容
+        const idNode = item.querySelector('.id');
+        const content = item.querySelector('.content');
+        let hidden = false;
+        for (let i = 0; i < content.classList.length; i++) {
+            if (content.classList[i] === 'hidden') {
+                hidden = true;
+            }
+        }
+        if (hidden) {
+            content.classList.remove('hidden');
+            idNode.classList.add('border');
+        } else {
+            content.classList.add('hidden');
+            idNode.classList.remove('border');
+        }
     }
 })();

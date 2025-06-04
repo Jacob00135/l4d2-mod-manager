@@ -15,9 +15,10 @@
       data-log-url="{% url 'mod_manager:get_subscribe_progress' %}">
     {% csrf_token %}
     <input type="text" id="subscribe_url" name="subscribe_url" placeholder="MOD的Steam创意工坊页面链接" autocomplete="off" required />
-    <input type="submit" class="submit-button" value="订阅" />
+    <input type="submit" class="submit-button" value="添加订阅" />
 </form>
 
+<!--
 <div id="subscribe_live">
     <h2 class="live-title">订阅日志</h2>
 
@@ -32,6 +33,82 @@
         <div class="log-panel"></div>
     </div>
 </div>
+-->
+
+<ul id="subscribe_list">
+    <li class="item">
+        <div class="id" data-index="0">1234</div>
+        <div class="content hidden">
+            <div class="link">
+                <label>订阅链接：</label>
+                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
+            </div>
+            <div class="title">
+                <label>MOD名称：</label>
+                <input type="text" value="half-life" disabled />
+            </div>
+            <div class="progress">
+                <label>下载进度：</label>
+                <div class="progress-bar">
+                    <div class="color"></div>
+                    <div class="text">0%</div>
+                </div>
+            </div>
+            <div class="log">
+                <h5>订阅日志</h5>
+                <div class="text"></div>
+            </div>
+        </div>
+    </li>
+    <li class="item">
+        <div class="id" data-index="1">5678</div>
+        <div class="content hidden">
+            <div class="link">
+                <label>订阅链接：</label>
+                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
+            </div>
+            <div class="title">
+                <label>MOD名称：</label>
+                <input type="text" value="half-life" disabled />
+            </div>
+            <div class="progress">
+                <label>下载进度：</label>
+                <div class="progress-bar">
+                    <div class="color"></div>
+                    <div class="text">0%</div>
+                </div>
+            </div>
+            <div class="log">
+                <h5>订阅日志</h5>
+                <div class="text"></div>
+            </div>
+        </div>
+    </li>
+    <li class="item">
+        <div class="id" data-index="2">9012</div>
+        <div class="content hidden">
+            <div class="link">
+                <label>订阅链接：</label>
+                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
+            </div>
+            <div class="title">
+                <label>MOD名称：</label>
+                <input type="text" value="half-life" disabled />
+            </div>
+            <div class="progress">
+                <label>下载进度：</label>
+                <div class="progress-bar">
+                    <div class="color"></div>
+                    <div class="text">0%</div>
+                </div>
+            </div>
+            <div class="log">
+                <h5>订阅日志</h5>
+                <div class="text"></div>
+            </div>
+        </div>
+    </li>
+</ul>
 {% endblock content %}
 
 {% block javascript %}
