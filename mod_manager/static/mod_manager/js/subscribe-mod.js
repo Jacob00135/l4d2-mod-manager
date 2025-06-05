@@ -1,7 +1,10 @@
 (() => {
     document.getElementById('subscribe_form').addEventListener('submit', submitSubscribeFormEvent);
-    document.querySelectorAll('#subscribe_list > .item .id').forEach((content) => {
+    document.querySelectorAll('.subscribe_list > .item .id').forEach((content) => {
         content.addEventListener('click', unfoldSubscribeItem);
+    });
+    document.querySelectorAll('.subscribe_list > .item .content .log .text').forEach((text) => {
+        text.innerHTML = text.innerHTML.replace(/\n/g, '<br/>');
     });
 
     function updateSubscribeLog(message) {
@@ -108,7 +111,7 @@
     }
     
     function unfoldSubscribeItem(e) {
-        const item = document.querySelectorAll('#subscribe_list > .item')[parseInt(e.target.getAttribute('data-index'))];
+        const item = document.querySelectorAll('.subscribe_list > .item')[parseInt(e.target.getAttribute('data-index'))];
 
         // 折叠/展开 内容
         const idNode = item.querySelector('.id');

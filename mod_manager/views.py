@@ -92,7 +92,14 @@ def delete_mod(request):
 @login_required
 def subscribe_mod(request):
     if request.method != 'POST':
-        return render(request, 'mod_manager/subscribe-mod.html')
+        subscribe_task_set = SubscribeTask.objects.all().order_by('-subscribe_date')
+        finished_task = subscribe_task_set.filter(finish=1)
+        unfinished_task = subscribe_task_set.filter(finish=0)
+        context = {
+            'unfinished_task': unfinished_task,
+            'finished_task': finished_task
+        }
+        return render(request, 'mod_manager/subscribe-mod.html', context)
 
     subscribe_url = request.POST.get('subscribe_url', '')
     smobj = SubscribeMod(subscribe_url, settings.L4D2_MOD_ADDONS_PATH)

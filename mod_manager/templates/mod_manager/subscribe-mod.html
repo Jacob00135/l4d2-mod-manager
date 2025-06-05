@@ -9,7 +9,7 @@
 
 {% block content %}
 <h1>订阅MOD</h1>
-<p class="hint-info">订阅后请不要刷新页面，防止订阅进度丢失</p>
+<!-- <p class="hint-info">订阅后请不要刷新页面，防止订阅进度丢失</p> -->
 
 <form id="subscribe_form" action="{% url 'mod_manager:subscribe_mod' %}" method="post"
       data-log-url="{% url 'mod_manager:get_subscribe_progress' %}">
@@ -18,96 +18,76 @@
     <input type="submit" class="submit-button" value="添加订阅" />
 </form>
 
-<!--
-<div id="subscribe_live">
-    <h2 class="live-title">订阅日志</h2>
-
-    <div class="progress-box">
-        <div class="progress-bar">
-            <div class="progress"></div>
-            <div class="text">0%</div>
-        </div>
-    </div>
-
-    <div class="log-panel-box">
-        <div class="log-panel"></div>
-    </div>
-</div>
--->
-
-<ul id="subscribe_list">
+<h2>正在进行的订阅</h2>
+<ul id="finished_task_list" class="subscribe_list">
+{% for st in unfinished_task %}
     <li class="item">
-        <div class="id" data-index="0">1234</div>
+        <div class="id" data-index="{{ forloop.counter0 }}">
+        {% if st.mod_title == '' %}
+            {{ st.mod_id }}
+        {% else %}
+            {{ st.mod_title }}
+        {% endif %}
+        </div>
         <div class="content hidden">
             <div class="link">
                 <label>订阅链接：</label>
-                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
+                <input type="text" value="{{ st.steam_workshop_link }}" disabled />
             </div>
             <div class="title">
                 <label>MOD名称：</label>
-                <input type="text" value="half-life" disabled />
+                <input type="text" value="{{ st.mod_title }}" disabled />
             </div>
             <div class="progress">
                 <label>下载进度：</label>
                 <div class="progress-bar">
-                    <div class="color"></div>
-                    <div class="text">0%</div>
+                    <div class="color" style="width: {{ st.download_progress }}%;"></div>
+                    <div class="text">{{ st.download_progress }}%</div>
                 </div>
             </div>
             <div class="log">
                 <h5>订阅日志</h5>
-                <div class="text"></div>
+                <div class="text">{{ st.log }}</div>
             </div>
         </div>
     </li>
+{% endfor %}
+</ul>
+
+<h2>已完成的订阅</h2>
+<ul id="unfinished_task_list" class="subscribe_list">
+{% for st in finished_task %}
     <li class="item">
-        <div class="id" data-index="1">5678</div>
+        <div class="id" data-index="{{ forloop.counter0 }}">
+        {% if st.mod_title == '' %}
+            {{ st.mod_id }}
+        {% else %}
+            {{ st.mod_title }}
+        {% endif %}
+        </div>
         <div class="content hidden">
             <div class="link">
                 <label>订阅链接：</label>
-                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
+                <input type="text" value="{{ st.steam_workshop_link }}" disabled />
             </div>
             <div class="title">
                 <label>MOD名称：</label>
-                <input type="text" value="half-life" disabled />
+                <input type="text" value="{{ st.mod_title }}" disabled />
             </div>
             <div class="progress">
                 <label>下载进度：</label>
                 <div class="progress-bar">
-                    <div class="color"></div>
-                    <div class="text">0%</div>
+                    <div class="color" style="width: {{ st.download_progress }}%;"></div>
+                    <div class="text">{{ st.download_progress }}%</div>
                 </div>
             </div>
             <div class="log">
                 <h5>订阅日志</h5>
-                <div class="text"></div>
+                <div class="text">{{ st.log }}</div>
             </div>
         </div>
     </li>
-    <li class="item">
-        <div class="id" data-index="2">9012</div>
-        <div class="content hidden">
-            <div class="link">
-                <label>订阅链接：</label>
-                <input type="text" value="https://www.youtube.com/watch?v=Mx3Aq3veb1A" disabled />
-            </div>
-            <div class="title">
-                <label>MOD名称：</label>
-                <input type="text" value="half-life" disabled />
-            </div>
-            <div class="progress">
-                <label>下载进度：</label>
-                <div class="progress-bar">
-                    <div class="color"></div>
-                    <div class="text">0%</div>
-                </div>
-            </div>
-            <div class="log">
-                <h5>订阅日志</h5>
-                <div class="text"></div>
-            </div>
-        </div>
-    </li>
+{% endfor %}
 </ul>
 {% endblock content %}
 

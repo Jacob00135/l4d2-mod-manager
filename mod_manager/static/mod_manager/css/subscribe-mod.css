@@ -1,4 +1,5 @@
-#main h1 {
+#main h1,
+#main h2 {
     margin: 0;
     padding: 20px 0;
     color: #b0b0b0;
@@ -18,7 +19,7 @@
     box-sizing: border-box;
     position: relative;
     height: 40px;
-    margin-top: 20px;
+    margin: 20px 0;
     padding-right: 100px;
 }
 
@@ -137,18 +138,18 @@
 }
 */
 
-#main #subscribe_list {
+#main .subscribe_list {
     margin-top: 0;
     padding-left: 0;
 }
 
-#main #subscribe_list > .item {
+#main .subscribe_list > .item {
     margin-top: 20px;
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, .5);
     list-style: none;
 }
 
-#main #subscribe_list > .item .id {
+#main .subscribe_list > .item .id {
     box-sizing: border-box;
     height: 40px;
     padding-left: 20px;
@@ -159,27 +160,27 @@
     cursor: pointer;
 }
 
-#main #subscribe_list > .item .content {
+#main .subscribe_list > .item .content {
     box-sizing: border-box;
     padding: 20px;
 }
 
-#main #subscribe_list > .item .content .title,
-#main #subscribe_list > .item .content .progress {
+#main .subscribe_list > .item .content .title,
+#main .subscribe_list > .item .content .progress {
     margin-top: 10px;
 }
 
-#main #subscribe_list > .item .content .link,
-#main #subscribe_list > .item .content .title,
-#main #subscribe_list > .item .content .progress {
+#main .subscribe_list > .item .content .link,
+#main .subscribe_list > .item .content .title,
+#main .subscribe_list > .item .content .progress {
     position: relative;
     height: 30px;
     padding-left: 100px;
 }
 
-#main #subscribe_list > .item .content .title label,
-#main #subscribe_list > .item .content .link label,
-#main #subscribe_list > .item .content .progress label {
+#main .subscribe_list > .item .content .title label,
+#main .subscribe_list > .item .content .link label,
+#main .subscribe_list > .item .content .progress label {
     position: absolute;
     left: 0;
     top: 0;
@@ -190,8 +191,8 @@
     color: #b0b0b0;
 }
 
-#main #subscribe_list > .item .content .title input,
-#main #subscribe_list > .item .content .link input {
+#main .subscribe_list > .item .content .title input,
+#main .subscribe_list > .item .content .link input {
     box-sizing: border-box;
     display: block;
     width: 100%;
@@ -206,20 +207,20 @@
     transition: border-color .2s;
 }
 
-#main #subscribe_list > .item .content .progress .progress-bar {
+#main .subscribe_list > .item .content .progress .progress-bar {
     position: relative;
     height: 100%;
     background-color: #21242f;
 }
 
-#main #subscribe_list > .item .content .progress .progress-bar .color {
+#main .subscribe_list > .item .content .progress .progress-bar .color {
     width: 0;
     height: 100%;
     background-color: #477497;
     transition: width .5s;
 }
 
-#main #subscribe_list > .item .content .progress .progress-bar .text {
+#main .subscribe_list > .item .content .progress .progress-bar .text {
     position: absolute;
     top: 0;
     left: 0;
@@ -232,7 +233,7 @@
     color: #a7d5f0;
 }
 
-#main #subscribe_list > .item .content .log h5 {
+#main .subscribe_list > .item .content .log h5 {
     margin: 16px 0;
     text-align: center;
     color: #b0b0b0;
@@ -240,11 +241,10 @@
     font-weight: 400;
 }
 
-#main #subscribe_list > .item .content .log .text {
+#main .subscribe_list > .item .content .log .text {
     box-sizing: border-box;
     overflow: auto;
     width: 100%;
-    height: 200px;
     padding: 20px;
     background-color: #122133;
     color: #9b9b9b;
