@@ -127,9 +127,10 @@ def get_subscribe_progress(request):
 
 
 @login_required
-def upload_mod(request):
+def upload_file(request):
     if request.method != 'POST':
-        return render(request, 'mod_manager/upload-mod.html')
+        context = {'L4D2_MOD_ADDONS_PATH': settings.L4D2_MOD_ADDONS_PATH}
+        return render(request, 'mod_manager/upload-file.html', context)
 
     f = request.FILES.get('file')
     if f is None:
@@ -160,11 +161,8 @@ def file_exist(request):
     if not check_filename_legality(filename):
         return JsonResponse({'success': 0, 'message': '不合法的文件名'})
 
-    if filename.rsplit('.', 1).pop() != 'vpk':
-        return JsonResponse({'success': 0, 'message': '必须是vpk文件'})
-
-    mod_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, filename)
-    exist = int(os.path.exists(mod_path))
+    file_path = os.path.join(settings.L4D2_MOD_ADDONS_PATH, filename)
+    exist = int(os.path.exists(file_path))
 
     return JsonResponse({'success': 1, 'exist': exist})
 

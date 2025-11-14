@@ -12,7 +12,7 @@ from pyquery import PyQuery
 from mod_manager.models import SubscribeTask
 
 global_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0'
-MAX_PAGE_MOD_NUMBER = 10
+MAX_PAGE_MOD_NUMBER = 20
 
 
 def compute_file_sha256(filepath, chunk_size=4096):

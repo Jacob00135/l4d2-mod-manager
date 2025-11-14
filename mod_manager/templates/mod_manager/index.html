@@ -10,7 +10,7 @@
 {% block content %}
 <h1>MOD列表</h1>
 <!-- <p class="server-info sort-info">MOD排序方式：地图排在其他MOD前面，按文件大小从大到小排序</p>-->
-<p class="server-info addons-path">addons路径：{{ L4D2_MOD_ADDONS_PATH }}</p>
+<p class="server-info addons-path">MOD路径：{{ L4D2_MOD_ADDONS_PATH }}</p>
 <p class="server-info disk-info">磁盘使用情况：{{ disk_info.used }} / {{ disk_info.total }} ({{ disk_info.percent }})</p>
 
 <form id="change_max_number_form" action="{% url 'mod_manager:change_max_page_mod_number' %}" method="post">

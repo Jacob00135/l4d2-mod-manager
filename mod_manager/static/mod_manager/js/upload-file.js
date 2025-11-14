@@ -6,15 +6,6 @@
         const input = e.target;
         const files = input.files;
 
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            let index = file.name.lastIndexOf('.');
-            if (index < 0 || file.name.slice(index + 1) != 'vpk') {
-                alert('只能上传VPK文件');
-                return undefined;
-            }
-        }
-
         const uploadFileList = document.getElementById('upload_file_list');
         uploadFileList.innerHTML = '';
         for (let i = 0; i < files.length; i++) {

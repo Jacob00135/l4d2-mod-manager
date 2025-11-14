@@ -1,17 +1,18 @@
 {% extends "mod_manager/base.html" %}
 {% load static %}
 
-{% block title %}上传MOD{% endblock title %}
+{% block title %}上传文件{% endblock title %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'mod_manager/css/upload-mod.css' %}">
+<link rel="stylesheet" href="{% static 'mod_manager/css/upload-file.css' %}">
 {% endblock style %}
 
 {% block content %}
-<h1>上传MOD</h1>
-<p class="hint-info">订阅后请不要刷新页面，防止上传进度丢失</p>
+<h1>上传文件</h1>
+<p class="hint-info">点击上传后请不要刷新页面，防止上传进度丢失</p>
+<p class="hint-info">文件保存路径：{{ L4D2_MOD_ADDONS_PATH }}</p>
 
-<form id="upload_form", action="{% url 'mod_manager:upload_mod' %}" method="post"
+<form id="upload_form", action="{% url 'mod_manager:upload_file' %}" method="post"
       enctype="multipart/form-data" data-exist-url="{% url 'mod_manager:file_exist' %}">
     {% csrf_token %}
     <div class="select-file">
@@ -25,5 +26,5 @@
 {% endblock content %}
 
 {% block javascript %}
-<script type="text/javascript" src="{% static 'mod_manager/js/upload-mod.js' %}"></script>
+<script type="text/javascript" src="{% static 'mod_manager/js/upload-file.js' %}"></script>
 {% endblock javascript %}
